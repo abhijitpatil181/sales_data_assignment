@@ -1,7 +1,7 @@
-#Sales Data 
+# Sales Data 
 
 ## Installation
 npm install
 
-##Usage
+## Usage
 npm start
