@@ -92,7 +92,7 @@ function getTotalSalesOfStore(monthWiseSalesData) {
     });
     return totalSales;
   } catch (error) {
-    console.log("Error reading file: " + error);
+    console.log("Error while accessing monthWiseSalesData: " + error);
   }
 }
 
@@ -111,7 +111,7 @@ function getMonthWiseTotalSales(monthWiseSalesData) {
     });
     return monthlyTotalSales;
   } catch (error) {
-    console.log("Error reading file: " + error);
+    console.log("Error while accessing monthWiseSalesData:" + error);
   }
 }
 
@@ -138,7 +138,7 @@ function getMostPopularItemSold(monthWiseSalesData) {
 
     return mostPopularItems; // Return the map of most popular items
   } catch (error) {
-    console.log("Error reading file: " + error);
+    console.log("Error while accessing monthWiseSalesData: " + error);
   }
 }
 
@@ -165,7 +165,7 @@ function getItemGeneratingMostRevenueInEachMonth(monthWiseSalesData) {
 
     return mostRevenueItemInEachMonth; // Return the map of most popular items
   } catch (error) {
-    console.log("Error reading file: " + error);
+    console.log("Error while accessing monthWiseSalesData:" + error);
   }
 }
 
@@ -186,44 +186,50 @@ function findMostPopularItemData(mostPopularItems, monthWiseSalesData) {
     });
     return mostPopularItemData;
   } catch (error) {
-    console.log("Error reading file: " + error);
+    console.log(
+      "Error while accessing mostPopularItems or monthWiseSalesData: " + error
+    );
   }
 }
 
 async function ProcessData() {
-  //read data from text file
-  const salesData = await readTextFile();
+  try {
+    //read data from text file
+    const salesData = await readTextFile();
 
-  //convert it to json format for better access and modularity
-  const salesJsonData = await convertDataToJson(salesData);
+    //convert it to json format for better access and modularity
+    const salesJsonData = await convertDataToJson(salesData);
 
-  //find month wise data
-  const monthWiseSalesData = await getMonthWiseSalesData(salesJsonData);
-  // console.log("monthWiseSalesData", monthWiseSalesData);
+    //find month wise data
+    const monthWiseSalesData = await getMonthWiseSalesData(salesJsonData);
+    // console.log("monthWiseSalesData", monthWiseSalesData);
 
-  //Total sales of the store
-  const totalSales = getTotalSalesOfStore(monthWiseSalesData);
-  console.log("totalSales ", totalSales);
+    //Total sales of the store
+    const totalSales = getTotalSalesOfStore(monthWiseSalesData);
+    console.log("totalSales ", totalSales);
 
-  //Month wise sales totals
-  const monthWiseTotalSales = getMonthWiseTotalSales(monthWiseSalesData);
-  console.log("monthWiseTotalSales ", monthWiseTotalSales);
+    //Month wise sales totals
+    const monthWiseTotalSales = getMonthWiseTotalSales(monthWiseSalesData);
+    console.log("monthWiseTotalSales ", monthWiseTotalSales);
 
-  //Most popular item (most quantity sold) in each month
-  const mostPopularItemSold = getMostPopularItemSold(monthWiseSalesData);
-  console.log("mostPopularItemSold ", mostPopularItemSold);
+    //Most popular item (most quantity sold) in each month
+    const mostPopularItemSold = getMostPopularItemSold(monthWiseSalesData);
+    console.log("mostPopularItemSold ", mostPopularItemSold);
 
-  //Items generating most revenue in each month
-  const mostRevenueItemInEachMonth =
-    getItemGeneratingMostRevenueInEachMonth(monthWiseSalesData);
-  console.log("mostRevenueItemInEachMonth ", mostRevenueItemInEachMonth);
+    //Items generating most revenue in each month
+    const mostRevenueItemInEachMonth =
+      getItemGeneratingMostRevenueInEachMonth(monthWiseSalesData);
+    console.log("mostRevenueItemInEachMonth ", mostRevenueItemInEachMonth);
 
-  //For the most popular item, find the min, max and average number of orders each month
-  const mostPopularItemData = findMostPopularItemData(
-    mostPopularItemSold,
-    monthWiseSalesData
-  );
-  console.log("mostPopularItemData", mostPopularItemData);
+    //For the most popular item, find the min, max and average number of orders each month
+    const mostPopularItemData = findMostPopularItemData(
+      mostPopularItemSold,
+      monthWiseSalesData
+    );
+    console.log("mostPopularItemData", mostPopularItemData);
+  } catch (error) {
+    console.log("Error While Processing data");
+  }
 }
 
 ProcessData();
